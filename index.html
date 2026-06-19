@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chronograph — Stopwatch</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<main class="app">
+
+  <header class="app__header">
+    <p class="app__eyebrow">Precision timing</p>
+    <h1 class="app__title">Chronograph</h1>
+  </header>
+
+  <!-- ============ STOPWATCH FACE ============ -->
+  <section class="watch" aria-label="Stopwatch">
+
+    <div class="watch__face">
+      <svg class="watch__ring" viewBox="0 0 240 240" aria-hidden="true">
+        <circle class="watch__ring-track" cx="120" cy="120" r="108" />
+        <circle class="watch__ring-progress" id="ringProgress" cx="120" cy="120" r="108" />
+      </svg>
+
+      <div class="watch__readout">
+        <span class="watch__time" id="display"><span id="displayMain">00:00:00</span><span class="watch__ms" id="displayMs">.00</span></span>
+        <span class="watch__status" id="statusLabel">Ready</span>
+      </div>
+
+      <!-- tick marks around the dial -->
+      <div class="watch__ticks" id="watchTicks" aria-hidden="true"></div>
+    </div>
+
+    <div class="watch__controls">
+      <button class="ctrl ctrl--lap" id="lapBtn" disabled>
+        <i class="ctrl__icon" aria-hidden="true">⏱</i>
+        <span>Lap</span>
+      </button>
+
+      <button class="ctrl ctrl--primary" id="startPauseBtn">
+        <i class="ctrl__icon" aria-hidden="true" id="startPauseIcon">▶</i>
+        <span id="startPauseLabel">Start</span>
+      </button>
+
+      <button class="ctrl ctrl--reset" id="resetBtn" disabled>
+        <i class="ctrl__icon" aria-hidden="true">↺</i>
+        <span>Reset</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- ============ LAP TIMES ============ -->
+  <section class="laps" aria-label="Lap times">
+    <div class="laps__head">
+      <h2>Laps</h2>
+      <span class="laps__count" id="lapCount"></span>
+    </div>
+
+    <div class="laps__table-head" id="lapsTableHead" hidden>
+      <span>Lap</span>
+      <span>Split</span>
+      <span>Total</span>
+    </div>
+
+    <ul class="laps__list" id="lapsList">
+      <li class="laps__empty" id="lapsEmpty">No laps recorded yet — start the stopwatch and tap Lap to mark a split.</li>
+    </ul>
+  </section>
+
+</main>
+
+<script src="script.js"></script>
+</body>
+</html>

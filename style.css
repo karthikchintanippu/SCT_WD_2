@@ -1,0 +1,321 @@
+/* ===================================================================
+   CHRONOGRAPH — Stopwatch design system
+   Palette: graphite, warm dial white, chronograph amber, steel grey
+   Type: Inter (UI) + JetBrains Mono (time readout, tabular)
+   =================================================================== */
+
+:root {
+  --graphite:     #1A1D21;
+  --graphite-2:   #22262B;
+  --dial:         #F5F2EA;
+  --steel:        #8A8F98;
+  --steel-soft:   #565B63;
+  --amber:        #FF6B35;
+  --amber-soft:   rgba(255,107,53,0.14);
+  --green:        #4CAF7D;
+  --line:         #2E3338;
+
+  --font-ui: 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  --ease: cubic-bezier(.22,.61,.36,1);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: var(--font-ui);
+  background: var(--graphite);
+  background-image: radial-gradient(circle at 50% -10%, #262A30 0%, var(--graphite) 60%);
+  color: var(--dial);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 20px;
+  -webkit-font-smoothing: antialiased;
+}
+
+button { font: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+:focus-visible {
+  outline: 2px solid var(--amber);
+  outline-offset: 3px;
+}
+
+/* ===================================================================
+   APP SHELL
+   =================================================================== */
+.app {
+  width: 100%;
+  max-width: 420px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.app__header { text-align: center; }
+.app__eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--amber);
+  margin-bottom: 6px;
+}
+.app__title {
+  font-size: 1.6rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+/* ===================================================================
+   WATCH FACE
+   =================================================================== */
+.watch {
+  background: var(--graphite-2);
+  border: 1px solid var(--line);
+  border-radius: 28px;
+  padding: 40px 28px 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+  box-shadow: 0 1px 0 rgba(255,255,255,0.03) inset, 0 20px 50px -20px rgba(0,0,0,0.6);
+}
+
+.watch__face {
+  position: relative;
+  width: 240px;
+  height: 240px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.watch__ring {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+.watch__ring-track {
+  fill: none;
+  stroke: var(--line);
+  stroke-width: 6;
+}
+.watch__ring-progress {
+  fill: none;
+  stroke: var(--amber);
+  stroke-width: 6;
+  stroke-linecap: round;
+  stroke-dasharray: 678.6; /* 2 * PI * 108 */
+  stroke-dashoffset: 678.6;
+  transition: stroke-dashoffset 0.05s linear;
+}
+
+.watch__ticks {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.watch__tick {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 1px;
+  height: 8px;
+  background: var(--steel-soft);
+  transform-origin: 0 0;
+  opacity: 0.5;
+}
+.watch__tick--major {
+  height: 12px;
+  background: var(--steel);
+  opacity: 0.8;
+}
+
+.watch__readout {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+.watch__time {
+  font-family: var(--font-mono);
+  font-size: 2.2rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  font-variant-numeric: tabular-nums;
+  color: var(--dial);
+}
+.watch__ms {
+  font-size: 1.2rem;
+  color: var(--steel);
+  font-weight: 500;
+}
+.watch__status {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--steel);
+  padding: 4px 12px;
+  border-radius: 20px;
+  border: 1px solid var(--line);
+  transition: color .25s, border-color .25s, background .25s;
+}
+.watch__status.is-running {
+  color: var(--amber);
+  border-color: var(--amber-soft);
+  background: var(--amber-soft);
+}
+.watch__status.is-paused {
+  color: var(--steel);
+  border-color: var(--line);
+}
+
+/* ===================================================================
+   CONTROLS
+   =================================================================== */
+.watch__controls {
+  display: grid;
+  grid-template-columns: 1fr 1.3fr 1fr;
+  gap: 12px;
+  width: 100%;
+}
+
+.ctrl {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 14px 10px;
+  border-radius: 16px;
+  background: var(--graphite);
+  border: 1px solid var(--line);
+  transition: transform .2s var(--ease), background .2s, border-color .2s, opacity .2s;
+}
+.ctrl span { font-size: 0.78rem; font-weight: 600; }
+.ctrl__icon { font-size: 1rem; line-height: 1; }
+
+.ctrl:not(:disabled):hover { transform: translateY(-2px); border-color: var(--steel-soft); }
+.ctrl:not(:disabled):active { transform: translateY(0); }
+.ctrl:disabled { opacity: 0.35; cursor: not-allowed; }
+
+.ctrl--primary {
+  background: var(--amber);
+  border-color: var(--amber);
+  color: var(--graphite);
+}
+.ctrl--primary:hover { background: #FF7E50; border-color: #FF7E50; }
+.ctrl--primary.is-running {
+  background: var(--graphite);
+  border-color: var(--steel-soft);
+  color: var(--dial);
+}
+.ctrl--primary.is-running:hover { border-color: var(--amber); color: var(--amber); }
+
+.ctrl--reset:not(:disabled):hover { border-color: var(--amber); color: var(--amber); }
+.ctrl--lap:not(:disabled):hover { border-color: var(--green); color: var(--green); }
+
+/* ===================================================================
+   LAPS
+   =================================================================== */
+.laps {
+  background: var(--graphite-2);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 24px 22px;
+}
+.laps__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+.laps__head h2 { font-size: 1rem; font-weight: 600; }
+.laps__count {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--steel);
+}
+
+.laps__table-head {
+  display: grid;
+  grid-template-columns: 0.6fr 1fr 1fr;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--steel-soft);
+  padding: 0 4px 10px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 6px;
+}
+.laps__table-head span:last-child,
+.laps__table-head span:nth-child(2) { text-align: right; }
+
+.laps__list {
+  list-style: none;
+  max-height: 280px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+.laps__list::-webkit-scrollbar { width: 6px; }
+.laps__list::-webkit-scrollbar-thumb { background: var(--line); border-radius: 3px; }
+
+.laps__empty {
+  font-size: 0.88rem;
+  color: var(--steel);
+  text-align: center;
+  padding: 20px 8px;
+  line-height: 1.5;
+}
+
+.lap-row {
+  display: grid;
+  grid-template-columns: 0.6fr 1fr 1fr;
+  align-items: center;
+  padding: 11px 4px;
+  border-bottom: 1px solid var(--line);
+  font-family: var(--font-mono);
+  font-size: 0.86rem;
+  font-variant-numeric: tabular-nums;
+  animation: lapIn .3s var(--ease);
+}
+.lap-row:last-child { border-bottom: none; }
+.lap-row__num { color: var(--steel); }
+.lap-row__split { text-align: right; color: var(--dial); }
+.lap-row__total { text-align: right; color: var(--steel); }
+
+.lap-row--fastest .lap-row__split { color: var(--green); }
+.lap-row--slowest .lap-row__split { color: var(--amber); }
+
+@keyframes lapIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===================================================================
+   RESPONSIVE
+   =================================================================== */
+@media (max-width: 420px) {
+  .watch__face { width: 200px; height: 200px; }
+  .watch__time { font-size: 1.8rem; }
+  .watch__ms { font-size: 1rem; }
+  .ctrl span { font-size: 0.72rem; }
+}
