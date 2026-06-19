@@ -21,19 +21,19 @@ document.addEventListener('DOMContentLoaded', () => {
   const lapCount        = document.getElementById('lapCount');
 
  
-  let startTime = 0;        // timestamp when current run began
-  let elapsedBeforePause = 0; // accumulated ms from previous runs
+  let startTime = 0;        
+  let elapsedBeforePause = 0;
   let isRunning = false;
   let rafId = null;
-  let laps = [];             // { splitMs, totalMs }
+  let laps = [];            
 
-  const RING_CIRCUMFERENCE = 678.6; // 2 * PI * r(108)
-  const RING_FULL_LAP_MS = 60000;   // ring completes one revolution per minute
+  const RING_CIRCUMFERENCE = 678.6;
+  const RING_FULL_LAP_MS = 60000;   
 
   
   function buildTicks() {
     const total = 60;
-    const radius = 120; // half of 240 viewBox/face size
+    const radius = 120; 
     for (let i = 0; i < total; i++) {
       const angle = (i / total) * 360;
       const isMajor = i % 5 === 0;
@@ -72,7 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
     displayMain.textContent = main;
     displayMs.textContent = ms;
 
-    // Ring sweeps one full revolution per minute, resetting each minute
+  
     const progressInCycle = (elapsed % RING_FULL_LAP_MS) / RING_FULL_LAP_MS;
     const offset = RING_CIRCUMFERENCE - (progressInCycle * RING_CIRCUMFERENCE);
     ringProgress.style.strokeDashoffset = offset;
@@ -175,7 +175,7 @@ document.addEventListener('DOMContentLoaded', () => {
     lapsTableHead.hidden = false;
     lapCount.textContent = `${laps.length} ${laps.length === 1 ? 'lap' : 'laps'}`;
 
-    // Determine fastest/slowest split (only meaningful with 2+ laps)
+   
     let fastestIdx = -1, slowestIdx = -1;
     if (laps.length > 1) {
       const splits = laps.map(l => l.splitMs);
@@ -185,7 +185,7 @@ document.addEventListener('DOMContentLoaded', () => {
       slowestIdx = splits.indexOf(maxSplit);
     }
 
-    // Render most recent lap first
+ 
     laps.forEach((lap, idx) => {
       const row = document.createElement('li');
       row.className = 'lap-row';
@@ -209,7 +209,7 @@ document.addEventListener('DOMContentLoaded', () => {
   lapBtn.addEventListener('click', recordLap);
   resetBtn.addEventListener('click', reset);
 
-  // Keyboard shortcuts: Space = start/pause, L = lap, R = reset
+  t
   document.addEventListener('keydown', (e) => {
     if (e.code === 'Space' && !e.repeat) {
       e.preventDefault();
