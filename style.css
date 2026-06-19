@@ -1,8 +1,4 @@
-/* ===================================================================
-   CHRONOGRAPH — Stopwatch design system
-   Palette: graphite, warm dial white, chronograph amber, steel grey
-   Type: Inter (UI) + JetBrains Mono (time readout, tabular)
-   =================================================================== */
+
 
 :root {
   --graphite:     #1A1D21;
@@ -50,9 +46,7 @@ button { font: inherit; cursor: pointer; border: none; background: none; color: 
   outline-offset: 3px;
 }
 
-/* ===================================================================
-   APP SHELL
-   =================================================================== */
+
 .app {
   width: 100%;
   max-width: 420px;
@@ -76,9 +70,7 @@ button { font: inherit; cursor: pointer; border: none; background: none; color: 
   letter-spacing: -0.01em;
 }
 
-/* ===================================================================
-   WATCH FACE
-   =================================================================== */
+
 .watch {
   background: var(--graphite-2);
   border: 1px solid var(--line);
@@ -186,9 +178,7 @@ button { font: inherit; cursor: pointer; border: none; background: none; color: 
   border-color: var(--line);
 }
 
-/* ===================================================================
-   CONTROLS
-   =================================================================== */
+
 .watch__controls {
   display: grid;
   grid-template-columns: 1fr 1.3fr 1fr;
@@ -231,9 +221,7 @@ button { font: inherit; cursor: pointer; border: none; background: none; color: 
 .ctrl--reset:not(:disabled):hover { border-color: var(--amber); color: var(--amber); }
 .ctrl--lap:not(:disabled):hover { border-color: var(--green); color: var(--green); }
 
-/* ===================================================================
-   LAPS
-   =================================================================== */
+
 .laps {
   background: var(--graphite-2);
   border: 1px solid var(--line);
@@ -310,9 +298,7 @@ button { font: inherit; cursor: pointer; border: none; background: none; color: 
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* ===================================================================
-   RESPONSIVE
-   =================================================================== */
+
 @media (max-width: 420px) {
   .watch__face { width: 200px; height: 200px; }
   .watch__time { font-size: 1.8rem; }
