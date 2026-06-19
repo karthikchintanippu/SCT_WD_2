@@ -1,14 +1,8 @@
-/* ===================================================================
-   CHRONOGRAPH — script.js
-   Stopwatch logic: start, pause, reset, lap tracking.
-   Vanilla JS only.
-   =================================================================== */
+
 
 document.addEventListener('DOMContentLoaded', () => {
 
-  /* -----------------------------------------------------------
-     ELEMENT REFERENCES
-  ----------------------------------------------------------- */
+  
   const displayMain     = document.getElementById('displayMain');
   const displayMs       = document.getElementById('displayMs');
   const statusLabel     = document.getElementById('statusLabel');
@@ -26,9 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const lapsTableHead   = document.getElementById('lapsTableHead');
   const lapCount        = document.getElementById('lapCount');
 
-  /* -----------------------------------------------------------
-     STATE
-  ----------------------------------------------------------- */
+ 
   let startTime = 0;        // timestamp when current run began
   let elapsedBeforePause = 0; // accumulated ms from previous runs
   let isRunning = false;
@@ -38,9 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const RING_CIRCUMFERENCE = 678.6; // 2 * PI * r(108)
   const RING_FULL_LAP_MS = 60000;   // ring completes one revolution per minute
 
-  /* -----------------------------------------------------------
-     BUILD TICK MARKS AROUND THE DIAL (60 ticks, every 5th major)
-  ----------------------------------------------------------- */
+  
   function buildTicks() {
     const total = 60;
     const radius = 120; // half of 240 viewBox/face size
@@ -55,10 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
   buildTicks();
 
-  /* -----------------------------------------------------------
-     TIME FORMATTING
-     Returns { main: "HH:MM:SS", ms: ".CC" }
-  ----------------------------------------------------------- */
+  
   function formatTime(totalMs) {
     const hours = Math.floor(totalMs / 3600000);
     const minutes = Math.floor((totalMs % 3600000) / 60000);
@@ -73,9 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
   }
 
-  /* -----------------------------------------------------------
-     RENDER LOOP — updates display + ring while running
-  ----------------------------------------------------------- */
+  
   function getElapsed() {
     if (!isRunning) return elapsedBeforePause;
     return elapsedBeforePause + (performance.now() - startTime);
@@ -97,9 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  /* -----------------------------------------------------------
-     START / PAUSE
-  ----------------------------------------------------------- */
+ 
   function start() {
     isRunning = true;
     startTime = performance.now();
@@ -140,9 +123,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  /* -----------------------------------------------------------
-     RESET
-  ----------------------------------------------------------- */
+  
   function reset() {
     isRunning = false;
     cancelAnimationFrame(rafId);
@@ -167,9 +148,7 @@ document.addEventListener('DOMContentLoaded', () => {
     renderLaps();
   }
 
-  /* -----------------------------------------------------------
-     LAP TRACKING
-  ----------------------------------------------------------- */
+  
   function recordLap() {
     const totalMs = getElapsed();
     const previousTotal = laps.length > 0 ? laps[laps.length - 1].totalMs : 0;
@@ -225,9 +204,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  /* -----------------------------------------------------------
-     EVENT BINDINGS
-  ----------------------------------------------------------- */
+  
   startPauseBtn.addEventListener('click', toggleStartPause);
   lapBtn.addEventListener('click', recordLap);
   resetBtn.addEventListener('click', reset);
@@ -244,9 +221,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  /* -----------------------------------------------------------
-     INITIAL STATE
-  ----------------------------------------------------------- */
+
   ringProgress.style.strokeDashoffset = RING_CIRCUMFERENCE;
 
 });
